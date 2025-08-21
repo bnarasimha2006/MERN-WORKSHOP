@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mousemove Background Color</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      button {
+        padding: 10px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="button-container">
+      <button id="startBtn">Start</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+
+    <script>
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+
+      function random(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      function changeBackground() {
+        const r = random(256);
+        const g = random(256);
+        const b = random(256);
+        document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      }
+
+      startBtn.addEventListener("click", () => {
+        document.addEventListener("mousemove", changeBackground);
+      });
+
+      stopBtn.addEventListener("click", () => {
+        document.removeEventListener("mousemove", changeBackground);
+      });
+    </script>
+  </body>
+</html>

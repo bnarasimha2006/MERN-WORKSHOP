@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Registration Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f9;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 450px;
+        margin: 50px auto;
+        padding: 25px 30px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        background-color: rgb(22, 252, 14);
+        color: white;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin: 8px 0 5px;
+        font-weight: bold;
+        color: #444;
+        text-align: left;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+      }
+
+      .radio-group,
+      .checkbox-group {
+        margin-bottom: 15px;
+      }
+
+      /* Align radio buttons and checkboxes properly */
+      .radio-group label,
+      .checkbox-group label {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
+        font-weight: normal;
+      }
+
+      .radio-group input,
+      .checkbox-group input {
+        margin-right: 6px;
+        width: auto;
+      }
+
+      button {
+        width: 48%;
+        padding: 10px;
+        margin: 5px 1%;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button[type="submit"] {
+        background: #4caf50;
+        color: white;
+      }
+
+      button[type="submit"]:hover {
+        background: #45a049;
+      }
+
+      button[type="reset"] {
+        background: #f44336;
+        color: white;
+      }
+
+      button[type="reset"]:hover {
+        background: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Student Registration Form</h2>
+      <form id="regform">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" />
+
+        <div class="radio-group">
+          <label>Gender:</label><br />
+          <label
+            ><input type="radio" id="male" name="gender" value="male" />
+            Male</label
+          >
+          <label
+            ><input type="radio" id="female" name="gender" value="female" />
+            Female</label
+          >
+          <label
+            ><input type="radio" id="other" name="gender" value="other" />
+            Other</label
+          >
+        </div>
+
+        <label for="department">Department:</label>
+        <select id="department" name="department">
+          <option value="">Select</option>
+          <option value="cse">Computer Science</option>
+          <option value="ece">Electronics</option>
+          <option value="eee">Electrical</option>
+          <option value="mech">Mechanical</option>
+          <option value="civil">Civil</option>
+        </select>
+
+        <div class="checkbox-group">
+          <label>Skills:</label><br />
+          <label
+            ><input type="checkbox" id="html" name="skills" value="HTML" />
+            HTML</label
+          >
+          <label
+            ><input type="checkbox" id="css" name="skills" value="CSS" />
+            CSS</label
+          >
+          <label
+            ><input type="checkbox" id="js" name="skills" value="JavaScript" />
+            JavaScript</label
+          >
+          <label
+            ><input type="checkbox" id="react" name="skills" value="React" />
+            React</label
+          >
+        </div>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4"></textarea>
+
+        <label for="photo">Upload Photo:</label>
+        <input type="file" id="photo" name="photo" />
+
+        <div style="text-align: center">
+          <button type="submit">Register</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+    <table id="studentsTable" style="display: none">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Department</th>
+          <th>Skills</th>
+          <th>Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="studentsBody"></tbody>
+    </table>
+    <script>
+      const form = document.getElementById("regform");
+      const table = document.getElementById("studentsTable");
+      const tbody = document.getElementById("studentBody");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let name = document.getElementById("fullname").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let password = document.getElementById("password").value;
+        let dob = document.getElementById("dob").value;
+        let dept = document.getElementById("department").value;
+        let address = document.getElementById("address").value.trim();
+
+        let gender = document.querySelector('input[name="gender"]:checked');
+        let skills = document.querySelectorAll('input[name="skills"]:checked');
+
+        // validation or alert msg if we not fill the filed then alert the msg
+        if (name === "") {
+          alert("fullname is required");
+          return;
+        }
+        if (!email.includes("@") || !email.includes(".")) {
+          alert("Enter a valid Email");
+          return;
+        }
+        if (password.length < 6) {
+          alert("PAssword must be alteast 6 digits");
+          return;
+        }
+        if (!gender) {
+          alert("Plz select Gender!!!");
+          return;
+        }
+        if (skills.length === 0) {
+          alert("plx select atleast oe Skill");
+          return;
+        }
+        if (dept === "") {
+          alert("Plz Select your department!");
+          return;
+        }
+        if (address === 0) {
+          alert("Enter your address");
+          return;
+        }
+
+        let selectedSkills = [];
+        skills.forEach((cb) => selectedSkills.push(cb.value));
+
+        let student = {
+          name,
+          email,
+          dob,
+          gender: gender.value,
+          dept,
+          skills: selectedSkills,
+          address,
+        }; //This is for cration of the object to the given tabled data
+
+        let students = JSON.parse(localStorage.getItem(students)) || [];
+        students.push(student);
+        localStorage.setItem("students", JSON.stringify(students));
+        addRow(student);
+        table.style.display = "table";
+        form.reset();
+      });
+      function addRow(student) {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td>${student.dob}</td>
+            <td>${student.gender}</td>
+            <td>${student.dept}</td>
+            <td>${student.skills.join(", ")}</td>
+            <td>${student.address}</td>
+            <td><button class="delete-btn">Delete</button></td>
+
+      `;
+      }
+    </script>
+  </body>
+</html>
