@@ -1,0 +1,6 @@
+mkdir student-backend
+cd student-backend
+npm init -y
+npm install express nodemon cors
+write a code 
+npm run dev
